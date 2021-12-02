@@ -13,7 +13,6 @@ def scrap_all_posts(driver):
     all_news = [get_main_post(soup)]
     all_news.extend(get_smaller_post(soup))
     all_news.extend(get_bigger_post(soup))
-    print(all_news)
     for post in all_news:
         print(post)
     return all_news
@@ -25,7 +24,7 @@ def get_main_post(soup):
     get_links(div_main_post, news)
     news.title = div_main_post.find('p', {'class': 'article__title'}).get_text().strip()
     info_list = div_main_post.findAll('a', {'class': 'm-list-main-related__article'})
-    strings = [news.title, news.topic]
+    strings = [news.title]
     news.optional_info = []
     for info in info_list:
         news.optional_info.append(info.getText().strip())
@@ -44,7 +43,7 @@ def get_smaller_post(soup):
         get_links(post, news)
         list.append(news)
         news.title = post.find('p', {'class': 'article__title'}).get_text().strip()
-        strings = [news.title, news.topic]
+        strings = [news.title]
         virus_topic_application(strings, news)
         news.countries = set(get_countries(strings))
 
@@ -59,7 +58,7 @@ def get_bigger_post(soup):
         get_links(post, news)
         list.append(news)
         news.title = post.find('p', {'class': 'article__title'}).get_text().strip()
-        strings = [news.title, news.topic]
+        strings = [news.title]
         virus_topic_application(strings, news)
         news.countries = set(get_countries(strings))
     return list
