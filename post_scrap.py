@@ -1,3 +1,4 @@
+import time
 
 from bs4 import BeautifulSoup
 
@@ -7,12 +8,14 @@ from utils import scroll_down, get_countries, virus_topic_application, get_links
 
 def scrap_all_posts(driver):
     driver.get("https://www.france24.com/en/")
-    scroll_down(driver, 0, 1000)
+    scroll_down(driver, 0, 4000)
     src = driver.page_source
     soup = BeautifulSoup(src, 'lxml')
     all_news = [get_main_post(soup)]
-    all_news.extend(get_smaller_post(soup))
-    all_news.extend(get_bigger_post(soup))
+    smaller_posts = get_smaller_post(soup)
+    all_news.extend(smaller_posts)
+    bigger_posts = get_bigger_post(soup)
+    all_news.extend(bigger_posts)
     for post in all_news:
         print(post)
     return all_news

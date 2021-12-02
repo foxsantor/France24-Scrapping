@@ -62,10 +62,12 @@ def virus_topic_application(strings_array, news):
 
 
 def get_links(post, news):
-    post_image = post.find('img', {'class': 'm-figure__img lazy'})
-    #if post_image.has_attr('alt'):
-    #    news.topic = post_image.attrs['alt']
-    time.sleep(1)
-    all_links = post_image.attrs['srcset'].split(",")
-    news.image = all_links[0].split(" ")[0]
+        post_image = post.find('img', {'class': 'm-figure__img lazy'})
+        try:
+            all_links = post_image.attrs['srcset'].split(",")
+            news.image = all_links[0].split(" ")[0]
+            if post_image.has_attr('alt'):
+                news.topic = post_image.attrs['alt']
+        except:
+            news.topic = "N/A"
 
